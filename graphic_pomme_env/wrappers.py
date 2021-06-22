@@ -165,7 +165,7 @@ class PommerEnvWrapperFrameSkip2():
             print(
                 f"Random assignment of starting position - current start position: {self.cur_start_pos}")
 
-    def step(self, action):
+    def step(self, action, opponent_action=None):
         # get opponent action
         if not self.opponent_actor:
             raw_obs_list = self.env.get_last_step_raw()
@@ -173,8 +173,11 @@ class PommerEnvWrapperFrameSkip2():
                 raw_obs_list[1 - self.cur_start_pos],
                 NUM_ACTIONS)  # for SimpleAgent
         else:
-            oppon_frame_stack = self.oppon_frame_stack_even if self.next_is_even else self.oppon_frame_stack_odd
-            opponent_action = self.opponent_actor(oppon_frame_stack)
+            if opponent_action is None:
+                oppon_frame_stack = self.oppon_frame_stack_even if self.next_is_even else self.oppon_frame_stack_odd
+                opponent_action = self.opponent_actor(oppon_frame_stack)
+            else:
+                opponent_action = opponent_action
 
         if self.cur_start_pos == 0:
             action_list = [action, opponent_action]
