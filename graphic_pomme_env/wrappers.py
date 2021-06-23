@@ -167,17 +167,18 @@ class PommerEnvWrapperFrameSkip2():
 
     def step(self, action, opponent_action=None):
         # get opponent action
-        if not self.opponent_actor:
-            raw_obs_list = self.env.get_last_step_raw()
-            opponent_action = self.opponent.act(
-                raw_obs_list[1 - self.cur_start_pos],
-                NUM_ACTIONS)  # for SimpleAgent
+        if opponent_action is not None:
+            opponent_action = opponent_action
         else:
-            if opponent_action is None:
-                oppon_frame_stack = self.oppon_frame_stack_even if self.next_is_even else self.oppon_frame_stack_odd
-                opponent_action = self.opponent_actor(oppon_frame_stack)
+            if not self.opponent_actor:
+                raw_obs_list = self.env.get_last_step_raw()
+                opponent_action = self.opponent.act(
+                    raw_obs_list[1 - self.cur_start_pos],
+                    NUM_ACTIONS)  # for SimpleAgent
             else:
-                opponent_action = opponent_action
+                if opponent_action is None:
+                    oppon_frame_stack = self.oppon_frame_stack_even if self.next_is_even else self.oppon_frame_stack_odd
+                    opponent_action = self.opponent_actor(oppon_frame_stack)
 
         if self.cur_start_pos == 0:
             action_list = [action, opponent_action]
