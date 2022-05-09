@@ -122,7 +122,7 @@ class PommerEnvWrapperFrameSkip2():
     """
 
     def __init__(self, num_stack, start_pos=0, opponent_actor=None,
-                 board='GraphicOneVsOne-v0'):
+                 board='GraphicOVOCompact-v0'):
 
         self.num_stack = num_stack
         self.start_pos = start_pos
